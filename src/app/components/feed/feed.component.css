@@ -1,0 +1,8 @@
+md-list-item {
+    margin-bottom: 5px;
+    border-bottom: 2px solid darkgray;
+}
+
+a {
+    text-decoration: none;
+}

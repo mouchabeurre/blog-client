@@ -1,0 +1,9 @@
+<div>
+  <h3>New Posts</h3>
+  <div *ngFor="let post of feed">
+    <div>{{ post.karma }}</div>
+    <h3>{{ post.title }}</h3>
+    <p> by <a href="#">{{ post.authorId.username }}</a> at {{ post.date | date}}</p>
+    <button (click)="onSelectPost(post)">View</button>
+  </div>
+</div>
