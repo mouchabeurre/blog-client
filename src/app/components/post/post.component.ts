@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostmanagerService } from '../../services/postmanager.service';
+import { AuthService } from '../../services/auth.service';
 import { POST } from '../../models/post';
 
 @Component({
@@ -11,7 +12,12 @@ import { POST } from '../../models/post';
 export class PostComponent implements OnInit {
   post: POST;
 
-  constructor(private postManager: PostmanagerService, private ActivatedRoute: ActivatedRoute) { }
+  constructor(
+    private postManager: PostmanagerService,
+    private ActivatedRoute: ActivatedRoute,
+    private router: Router,
+    private AuthService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.getPost();
@@ -26,14 +32,22 @@ export class PostComponent implements OnInit {
   }
 
   upvotePost() {
-    this.postManager.upvotePost(this.post.shortPostId).subscribe(res => {
-      console.log(res);
-    });
+    if (this.AuthService.loggedIn()) {
+      this.postManager.upvotePost(this.post.shortPostId).subscribe(res => {
+        console.log(res);
+      });
+    } else {
+      this.router.navigate(['/signin']);
+    }
   }
 
   downvotePost() {
-    this.postManager.downvotePost(this.post.shortPostId).subscribe(res => {
-      console.log(res);
-    });
+    if (this.AuthService.loggedIn()) {
+      this.postManager.downvotePost(this.post.shortPostId).subscribe(res => {
+        console.log(res);
+      });
+    } else {
+      this.router.navigate(['/signin']);
+    }
   }
 }

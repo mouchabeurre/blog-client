@@ -33,6 +33,7 @@ export class PostmanagerService {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
+    console.log(this.AuthService.authToken, headers);
     return this.http.put('http://localhost:3000/api/post/' + id + '/upvote', { headers: headers })
       .map(res => res.json());
   }

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="feed">
   <h3>New Posts</h3>
   <div *ngFor="let post of feed">
     <div>{{ post.karma }}</div>

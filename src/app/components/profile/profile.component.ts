@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfilemanagerService } from '../../services/profilemanager.service';
+import { SELFUSER } from '../../models/user';
 
 @Component({
   selector: 'app-profile',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  selfuser: SELFUSER = null;
 
-  constructor() { }
+  constructor(private profileManager: ProfilemanagerService) { }
 
   ngOnInit() {
+    this.profileManager.getProfile().then(profile => {
+      this.selfuser = profile;
+    },
+      err => {
+        console.log(err);
+        return false;
+      });
   }
 
 }

@@ -8,19 +8,21 @@ export class AuthService {
   authToken: any;
   user: any;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+    this.loadToken();
+  }
 
   registerUser(user) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/register', user, { headers: headers })
+    return this.http.post('http://localhost:3000/api/user/register', user, { headers: headers })
       .map(res => res.json());
   }
 
   authenticateUser(user) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers })
+    return this.http.post('http://localhost:3000/api/user/authenticate', user, { headers: headers })
       .map(res => res.json());
   }
 

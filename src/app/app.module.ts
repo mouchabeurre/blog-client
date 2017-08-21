@@ -2,15 +2,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule }   from '@angular/forms';
 // Modules
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-// import { MdGridListModule, MdCardModule, MdButtonModule, MdListModule, MdMenuModule, MdToolbarModule, MdSidenavModule } from '@angular/material';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { PostmanagerService } from './services/postmanager.service';
+import { ProfilemanagerService } from './services/profilemanager.service';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 // Components
@@ -21,6 +21,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { PostComponent } from './components/post/post.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { SignupComponent } from './components/signup/signup.component';
+import { SigninComponent } from './components/signin/signin.component';
 
 @NgModule({
   declarations: [
@@ -28,14 +30,17 @@ import { AppRoutingModule } from './app-routing.module';
     NavbarComponent,
     FeedComponent,
     ProfileComponent,
-    PostComponent
+    PostComponent,
+    SignupComponent,
+    SigninComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [ValidateService, AuthGuard, AuthService, PostmanagerService],
+  providers: [ValidateService, AuthGuard, AuthService, PostmanagerService, ProfilemanagerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
