@@ -12,6 +12,20 @@ export class AuthService {
     this.loadToken();
   }
 
+  checkUsername(username: string) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/api/user/username', { username }, { headers: headers })
+      .map(res => res.json());
+  }
+
+  checkEmail(email: string) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/api/user/email', { email }, { headers: headers })
+      .map(res => res.json());
+  }
+
   registerUser(user) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

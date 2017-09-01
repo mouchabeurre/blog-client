@@ -2,8 +2,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Modules
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
@@ -11,6 +12,7 @@ import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { PostmanagerService } from './services/postmanager.service';
 import { ProfilemanagerService } from './services/profilemanager.service';
+import { CommentmanagerService } from './services/commentmanager.service';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 // Components
@@ -23,6 +25,7 @@ import { PostComponent } from './components/post/post.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
+import { CommentsectionComponent } from './components/commentsection/commentsection.component';
 
 @NgModule({
   declarations: [
@@ -32,15 +35,24 @@ import { SigninComponent } from './components/signin/signin.component';
     ProfileComponent,
     PostComponent,
     SignupComponent,
-    SigninComponent
+    SigninComponent,
+    CommentsectionComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModule.forRoot()
   ],
-  providers: [ValidateService, AuthGuard, AuthService, PostmanagerService, ProfilemanagerService],
+  providers: [ValidateService,
+    AuthGuard,
+    AuthService,
+    PostmanagerService,
+    ProfilemanagerService,
+    CommentmanagerService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

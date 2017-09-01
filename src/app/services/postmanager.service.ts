@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { AuthService } from './auth.service';
-
 import 'rxjs/add/operator/toPromise';
 import { POST } from '../models/post';
 
@@ -20,7 +19,7 @@ export class PostmanagerService {
       .catch(this.handleError);
   }
 
-  getPost(id: String): Promise<POST> {
+  getPost(id: string): Promise<POST> {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     return this.http.get('http://localhost:3000/api/post/' + id, { headers: headers })
@@ -29,21 +28,24 @@ export class PostmanagerService {
       .catch(this.handleError);
   }
 
-  upvotePost(id: String) {
+  upvotePost(id: string): Promise<{}> {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    console.log(this.AuthService.authToken, headers);
-    return this.http.put('http://localhost:3000/api/post/' + id + '/upvote', { headers: headers })
-      .map(res => res.json());
+    return this.http.put('http://localhost:3000/api/post/' + id + '/upvote', null, { headers: headers })
+      .toPromise()
+      .then(response => response.json() as {})
+      .catch(this.handleError);
   }
 
-  downvotePost(id: String) {
+  downvotePost(id: string): Promise<{}> {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    return this.http.put('http://localhost:3000/api/post/' + id + '/downvote', { headers: headers })
-      .map(res => res.json());
+    return this.http.put('http://localhost:3000/api/post/' + id + '/downvote', null, { headers: headers })
+      .toPromise()
+      .then(response => response.json() as {})
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

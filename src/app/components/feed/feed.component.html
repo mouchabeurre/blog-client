@@ -1,9 +1,20 @@
 <div *ngIf="feed">
   <h3>New Posts</h3>
-  <div *ngFor="let post of feed">
-    <div>{{ post.karma }}</div>
-    <h3>{{ post.title }}</h3>
-    <p> by <a href="#">{{ post.authorId.username }}</a> at {{ post.date | date}}</p>
-    <button (click)="onSelectPost(post)">View</button>
+  <div class="row">
+    <div class="card-deck">
+      <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let post of feed">
+        <div class="card">
+          <img class="card-img-top img-fluid" src="http://i.imgur.com/fKTVifL.jpg" alt="A camel after an air strike">
+          <div class="card-block">
+            <h4 class="card-title">{{ post.title }}</h4>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <button class="btn btn-primary btn-block" (click)="onSelectPost(post)">View</button>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{ post.date | date}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

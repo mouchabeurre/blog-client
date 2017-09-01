@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostmanagerService } from '../../services/postmanager.service';
+import { CommentsectionComponent } from '../commentsection/commentsection.component'
 import { AuthService } from '../../services/auth.service';
 import { POST } from '../../models/post';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
 })
 export class PostComponent implements OnInit {
   post: POST;
@@ -33,8 +34,11 @@ export class PostComponent implements OnInit {
 
   upvotePost() {
     if (this.AuthService.loggedIn()) {
-      this.postManager.upvotePost(this.post.shortPostId).subscribe(res => {
-        console.log(res);
+      this.postManager.upvotePost(this.post.shortPostId).then(res => {
+        this.post.karma++ ,
+          err => {
+            console.log('error occure:', err);
+          }
       });
     } else {
       this.router.navigate(['/signin']);
@@ -43,8 +47,11 @@ export class PostComponent implements OnInit {
 
   downvotePost() {
     if (this.AuthService.loggedIn()) {
-      this.postManager.downvotePost(this.post.shortPostId).subscribe(res => {
-        console.log(res);
+      this.postManager.downvotePost(this.post.shortPostId).then(res => {
+        this.post.karma-- ,
+          err => {
+            console.log('error occure:', err);
+          }
       });
     } else {
       this.router.navigate(['/signin']);

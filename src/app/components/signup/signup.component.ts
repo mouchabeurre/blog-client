@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidateService } from '../../services/validate.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -9,50 +10,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  name: String;
-  username: String;
-  email: String;
-  password: String;
+  upForm: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private validateService: ValidateService,
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.upForm = this.fb.group({
+      name: [null, [Validators.required, Validators.minLength(3)]],
+      username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)], [this.validateService.usernameAvailable(this.authService)]],
+      email: [null, [Validators.required, Validators.email], [this.validateService.emailAvailable(this.authService)]],
+      password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]]
+    });
   }
 
   onRegisterSumbit() {
     const user = {
-      name: this.name,
-      email: this.email,
-      username: this.username,
-      password: this.password
+      name: this.upForm.controls.name.value,
+      email: this.upForm.controls.email.value,
+      username: this.upForm.controls.username.value,
+      password: this.upForm.controls.password.value
     }
-
-    // Validate fields
-    if (!this.validateService.validateRegister(user)) {
-      console.log('Please fill in all the fields');
-      return false;
-    }
-
-    // Validate email
-    if (!this.validateService.validateEmail(user.email)) {
-      console.log('Please use a valid email');
-      return false;
-    }
+    console.log(user);
 
     // Register user
-    this.authService.registerUser(user).subscribe(data => {
-      if (data.success) {
-        console.log('You are now registered and can log in');
-        this.router.navigate(['/login']);
-      }
-      else {
-        console.log('Something went wrong');
-        this.router.navigate(['/signup']);
-      }
-    });
+    // this.authService.registerUser(user).subscribe(data => {
+    //   if (data.success) {
+    //     console.log('You are now registered and can log in');
+    //     this.router.navigate(['/signin']);
+    //   }
+    //   else {
+    //     console.log('Something went wrong');
+    //     this.router.navigate(['/signup']);
+    //   }
+    // });
   }
 
 }
