@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -8,21 +9,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-  username: string;
-  password: string;
+  upForm: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.upForm = this.fb.group({
+      username: [null, [Validators.required]],
+      password: [null, [Validators.required]]
+    });
   }
 
   onLoginSumbit() {
     const user = {
-      username: this.username,
-      password: this.password
+      username: this.upForm.controls.username.value,
+      password: this.upForm.controls.password.value
     }
 
     this.authService.authenticateUser(user).subscribe(data => {

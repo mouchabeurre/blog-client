@@ -1,43 +1,78 @@
 <div class="container">
-  <h2>Sign up</h2>
-  <form [formGroup]="upForm" (ngSubmit)="onRegisterSumbit()">
-    <div class="form-group">
-      <label class="col-md-2 control-label">Name</label>
-      <input type="text" placeholder="Name" formControlName="name" class="form-control">
-    </div>
+  <form class="form-signin" [formGroup]="upForm" (ngSubmit)="onRegisterSumbit()">
+    <h2 class="form-signin-heading">Sign up</h2>
     <div class="form-group" [ngClass]="{
-        'has-danger': upForm.controls.username.invalid && upForm.controls.username.dirty,
-        'has-success': upForm.controls.username.valid && upForm.controls.username.dirty
+        'has-danger': upForm.controls.name.invalid && (upForm.controls.name.dirty || upForm.controls.name.touched),
+        'has-success': upForm.controls.name.valid && (upForm.controls.name.dirty || upForm.controls.name.touched)
     }">
-      <label class="col-md-2 control-label">Userame</label>
-      <input type="text" placeholder="Username" formControlName="username" class="form-control">
+      <label class="sr-only" for="inputName">Name</label>
+      <input type="text" id="inputName" placeholder="Name" formControlName="name" class="form-control" [ngClass]="{
+        'input-merge-bot': upForm.controls.name.errors && (upForm.controls.name.dirty || upForm.controls.name.touched)
+      }">
 
-      <span class="help-block" *ngIf="upForm.controls.username.errors && (upForm.controls.username.dirty || upForm.controls.username.touched)">
-        <ngb-alert type="warning" [dismissible]="false" *ngIf="upForm.controls.username.errors.required">Username is required</ngb-alert>
-        <ngb-alert type="warning" [dismissible]="false" *ngIf="upForm.controls.username.errors.minlength">Username must be at least 3 characters long</ngb-alert>
-        <ngb-alert type="warning" [dismissible]="false" *ngIf="upForm.controls.username.errors.unavailable">Username taken! Chose another one</ngb-alert>
-      </span>
+      <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.name.errors && (upForm.controls.name.dirty || upForm.controls.name.touched)">
+        <div *ngIf="upForm.controls.name.errors.required">Name is required</div>
+        <div *ngIf="upForm.controls.name.errors.minlength && !upForm.controls.name.errors.pattern">Name must be at least {{ upForm.controls.name.errors.minlength.requiredLength }} characters long ({{ upForm.controls.name.errors.minlength.requiredLength - upForm.controls.name.errors.minlength.actualLength }} to go)</div>
+        <div *ngIf="upForm.controls.name.errors.pattern">Only letters and digits allowed here</div>
+      </ngb-alert>
 
     </div>
     <div class="form-group" [ngClass]="{
-        'has-danger': upForm.controls.email.invalid && upForm.controls.email.dirty,
-        'has-success': upForm.controls.email.valid && upForm.controls.email.dirty
+        'has-danger': upForm.controls.username.invalid && (upForm.controls.username.dirty || upForm.controls.username.touched),
+        'has-success': upForm.controls.username.valid && (upForm.controls.username.dirty || upForm.controls.username.touched)
     }">
-      <label class="col-md-2 control-label">Email</label>
-      <input type="text" placeholder="Email" formControlName="email" class="form-control">
+      <label class="sr-only" for="inputUsername">Userame</label>
+      <input type="text" id="inputUsername" placeholder="Username" formControlName="username" class="form-control" [ngClass]="{
+        'input-merge-bot': upForm.controls.username.errors && (upForm.controls.username.dirty || upForm.controls.username.touched)
+      }">
+      <p *ngIf="upForm.controls.username.pending">
+        <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>checking availability</i></ngb-progressbar>
+      </p>
 
-      <span class="help-block" *ngIf="upForm.controls.email.errors && (upForm.controls.email.dirty || upForm.controls.email.touched)">
-        <ngb-alert type="warning" [dismissible]="false"  *ngIf="upForm.controls.email.errors.required">Email is required</ngb-alert>
-        <ngb-alert type="warning" [dismissible]="false"  *ngIf="upForm.controls.email.errors.email">Email must be valid</ngb-alert>
-        <ngb-alert type="warning" [dismissible]="false"  *ngIf="upForm.controls.email.errors.unavailable">Email taken! Chose another one</ngb-alert>
-      </span>
+      <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.username.errors && (upForm.controls.username.dirty || upForm.controls.username.touched)">
+        <div *ngIf="upForm.controls.username.errors.required">Username is required</div>
+        <div *ngIf="upForm.controls.username.errors.minlength && !upForm.controls.username.errors.pattern">Username must be at least {{ upForm.controls.username.errors.minlength.requiredLength }} characters long ({{ upForm.controls.username.errors.minlength.requiredLength - upForm.controls.username.errors.minlength.actualLength }} to go)</div>
+        <div *ngIf="upForm.controls.username.errors.maxlength">Password must be at most {{ upForm.controls.username.errors.maxlength.requiredLength }} characters long</div>
+        <div *ngIf="upForm.controls.username.errors.unavailable">Username already in use</div>
+        <div *ngIf="upForm.controls.username.errors.pattern">Unallowed character</div>
+      </ngb-alert>
 
     </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label">Password</label>
-      <input type="password" placeholder="Password" formControlName="password" class="form-control">
+    <div class="form-group" [ngClass]="{
+        'has-danger': upForm.controls.email.invalid && (upForm.controls.email.dirty || upForm.controls.email.touched),
+        'has-success': upForm.controls.email.valid && (upForm.controls.email.dirty || upForm.controls.email.touched)
+    }">
+      <label class="sr-only" for="inputEmail">Email</label>
+      <input type="text" id="inputEmail" placeholder="Email" formControlName="email" class="form-control" [ngClass]="{
+        'input-merge-bot': upForm.controls.email.errors && (upForm.controls.email.dirty || upForm.controls.email.touched)
+      }">
+      <p *ngIf="upForm.controls.email.pending">
+        <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>checking availability</i></ngb-progressbar>
+      </p>
+
+      <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.email.errors && (upForm.controls.email.dirty || upForm.controls.email.touched)">
+        <div *ngIf="upForm.controls.email.errors.required">Email is required</div>
+        <div *ngIf="upForm.controls.email.errors.email && !upForm.controls.email.errors.required">Email must be valid</div>
+        <div *ngIf="upForm.controls.email.errors.unavailable">Email already in use</div>
+      </ngb-alert>
+
     </div>
-    <input type="submit" [disabled]="!upForm.valid" class="btn btn-primary" value="Submit">
+    <div class="form-group" [ngClass]="{
+        'has-danger': upForm.controls.password.invalid && (upForm.controls.password.dirty || upForm.controls.password.touched),
+        'has-success': upForm.controls.password.valid && (upForm.controls.password.dirty || upForm.controls.password.touched)
+    }">
+      <label class="sr-only" for="inputPassword">Password</label>
+      <input type="password" id="inputPassword" placeholder="Password" formControlName="password" class="form-control" [ngClass]="{
+        'input-merge-bot': upForm.controls.password.errors && (upForm.controls.password.dirty || upForm.controls.password.touched)
+      }">
+
+      <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.password.errors && (upForm.controls.password.dirty || upForm.controls.password.touched)">
+        <div *ngIf="upForm.controls.password.errors.required">Password is required</div>
+        <div *ngIf="upForm.controls.password.errors.minlength">Password must be at least {{ upForm.controls.password.errors.minlength.requiredLength }} characters long ({{ upForm.controls.password.errors.minlength.requiredLength - upForm.controls.password.errors.minlength.actualLength }} to go)</div>
+        <div *ngIf="upForm.controls.password.errors.maxlength">Password must be at most {{ upForm.controls.password.errors.maxlength.requiredLength }} characters long</div>
+      </ngb-alert>
+
+    </div>
+    <input type="submit" [disabled]="!upForm.valid" class="btn btn-block btn-primary" value="Submit">
   </form>
-  <pre>{{upForm.value | json}}</pre>
 </div>

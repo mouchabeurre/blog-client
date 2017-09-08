@@ -1,8 +1,16 @@
-md-list-item {
-    margin-bottom: 5px;
-    border-bottom: 2px solid darkgray;
+.album {
+	min-height: 50rem;
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	background-color: #f7f7f7;
 }
 
-a {
-    text-decoration: none;
+h2 {
+  margin-bottom: 20px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #eee;
+}
+
+.card {
+  margin-bottom: 2rem;
 }

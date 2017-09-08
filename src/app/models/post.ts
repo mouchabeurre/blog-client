@@ -4,6 +4,7 @@ export class POST {
   _id: string;
   title: string;
   content: string;
+  imageURL: string;
   authorId: {
     _id: string;
     username: string;

@@ -26,6 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { CommentsectionComponent } from './components/commentsection/commentsection.component';
+// Pipes
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { CommentsectionComponent } from './components/commentsection/commentsect
     PostComponent,
     SignupComponent,
     SigninComponent,
-    CommentsectionComponent
+    CommentsectionComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

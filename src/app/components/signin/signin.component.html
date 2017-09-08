@@ -1,12 +1,37 @@
-<h2 class="page-header">Login</h2>
-<form (submit)="onLoginSumbit()">
-  <div class="form-group">
-    <label>Username</label>
-    <input type="text" [(ngModel)]="username" name="username" class="form-control">
-  </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" [(ngModel)]="password" name="password" class="form-control">
-  </div>
-  <input type="submit" class="btn btn-primary" value="Submit">
-</form>
+<div class="container">
+  <form class="form-signin" [formGroup]="upForm" (submit)="onLoginSumbit()">
+    <h2 class="form-signin-heading">Sign in</h2>
+    <div class="form-group" [ngClass]="{
+      'has-danger': upForm.controls.username.invalid && (upForm.controls.username.dirty || upForm.controls.username.touched),
+      'has-success': upForm.controls.username.valid && (upForm.controls.username.dirty || upForm.controls.username.touched)
+  }">
+      <label class="sr-only" for="inputUsername">Userame</label>
+      <input type="text" id="inputUsername" placeholder="Username" formControlName="username" class="form-control" [ngClass]="{
+        'input-merge-bot': upForm.controls.username.errors && (upForm.controls.username.dirty || upForm.controls.username.touched)
+      }">
+
+      <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.username.errors && (upForm.controls.username.dirty || upForm.controls.username.touched)">
+        <div *ngIf="upForm.controls.username.errors.required">Username is required</div>
+        <div *ngIf="upForm.controls.username.errors.minlength">Username must be at least 3 characters long</div>
+      </ngb-alert>
+
+    </div>
+    <div class="form-group" [ngClass]="{
+      'has-danger': upForm.controls.password.invalid && (upForm.controls.password.dirty || upForm.controls.password.touched),
+      'has-success': upForm.controls.password.valid && (upForm.controls.password.dirty || upForm.controls.password.touched)
+  }">
+      <label class="sr-only" for="inputPassword">Password</label>
+      <input type="password" id="inputPassword" placeholder="Password" formControlName="password" class="form-control" [ngClass]="{
+        'input-merge-bot': upForm.controls.password.errors && (upForm.controls.password.dirty || upForm.controls.password.touched)
+      }">
+
+      <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.password.errors && (upForm.controls.password.dirty || upForm.controls.password.touched)">
+        <div *ngIf="upForm.controls.password.errors.required">Password is required</div>
+        <div *ngIf="upForm.controls.password.errors.minlength">Password must be at least 6 characters long</div>
+        <div *ngIf="upForm.controls.password.errors.maxlength">Password must be at most 30 characters long</div>
+      </ngb-alert>
+
+    </div>
+    <input type="submit" [disabled]="!upForm.valid" class="btn btn-block btn-primary" value="Submit">
+  </form>
+</div>

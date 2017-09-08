@@ -15,7 +15,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 @Injectable()
 export class ValidateService {
-  validationTimeout: number = 600;
+  validationTimeout: number = 500;
 
   constructor() { }
 
@@ -29,7 +29,7 @@ export class ValidateService {
 
   emailAvailable(authService: AuthService) {
     return (c: AbstractControl): Observable<any> => {
-      return c.valueChanges.debounceTime(500).distinctUntilChanged().switchMap(() => {
+      return c.valueChanges.debounceTime(this.validationTimeout).distinctUntilChanged().switchMap(() => {
         return authService.checkEmail(c.value).map(res => {
           if (!res.success) {
             c.setErrors({ unavailable: true });
@@ -45,7 +45,7 @@ export class ValidateService {
 
   usernameAvailable(authService: AuthService) {
     return (c: AbstractControl): Observable<any> => {
-      return c.valueChanges.debounceTime(500).distinctUntilChanged().switchMap(() => {
+      return c.valueChanges.debounceTime(this.validationTimeout).distinctUntilChanged().switchMap(() => {
         return authService.checkUsername(c.value).map(res => {
           if (!res.success) {
             c.setErrors({ unavailable: true });
