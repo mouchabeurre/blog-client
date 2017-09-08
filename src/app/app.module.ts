@@ -5,8 +5,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { BootstrapGrowlModule } from "ngx-bootstrap-growl";
 // Services
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
@@ -21,11 +20,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FeedComponent } from './components/feed/feed.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PostComponent } from './components/post/post.component';
-
 import { AppRoutingModule } from './app-routing.module';
 import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { CommentsectionComponent } from './components/commentsection/commentsection.component';
+import { GrowlerComponent } from './components/growler/growler.component';
 // Pipes
 import { TruncatePipe } from './pipes/truncate.pipe';
 
@@ -39,7 +38,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     SignupComponent,
     SigninComponent,
     CommentsectionComponent,
-    TruncatePipe
+    TruncatePipe,
+    GrowlerComponent
   ],
   imports: [
     BrowserModule,
@@ -47,14 +47,16 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BootstrapGrowlModule,
     NgbModule.forRoot()
   ],
-  providers: [ValidateService,
+  providers: [
+    ValidateService,
     AuthGuard,
     AuthService,
     PostmanagerService,
     ProfilemanagerService,
-    CommentmanagerService
+    CommentmanagerService,
   ],
   bootstrap: [AppComponent]
 })

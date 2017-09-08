@@ -38,16 +38,14 @@ export class SignupComponent implements OnInit {
     console.log(user);
 
     // Register user
-    // this.authService.registerUser(user).subscribe(data => {
-    //   if (data.success) {
-    //     console.log('You are now registered and can log in');
-    //     this.router.navigate(['/signin']);
-    //   }
-    //   else {
-    //     console.log('Something went wrong');
-    //     this.router.navigate(['/signup']);
-    //   }
-    // });
+    this.authService.registerUser(user).subscribe(data => {
+      if (data.success) {
+        this.router.navigate(['/signin']);
+      }
+      else {
+        this.router.navigate(['/signup']);
+      }
+    });
   }
 
 }

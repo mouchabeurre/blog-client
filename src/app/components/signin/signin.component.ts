@@ -33,11 +33,9 @@ export class SigninComponent implements OnInit {
     this.authService.authenticateUser(user).subscribe(data => {
       if (data.success) {
         this.authService.storeUserData(data.token, data.user);
-        console.log('You are now logged in');
         this.router.navigate(['']);
       }
       else {
-        console.log(data.msg);
         this.router.navigate(['/signin']);
       }
     });
