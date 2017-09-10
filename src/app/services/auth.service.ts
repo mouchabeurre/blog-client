@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
-import { BootstrapAlertType } from "ngx-bootstrap-growl";
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { GROWL } from '../models/growl'
+import { GrowlmanagerService } from './growlmanager.service';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -12,9 +9,11 @@ export class AuthService {
   private baseUrl: string;
   authToken: any;
   user: any;
-  growls: Subject<GROWL> = new Subject();
 
-  constructor(private http: Http) {
+  constructor(
+    private http: Http,
+    private growlmanagerService: GrowlmanagerService
+  ) {
     this.baseUrl = 'http://localhost:3000/api/';
     this.loadToken();
   }
@@ -38,7 +37,11 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     return this.http.post(`${this.baseUrl}user/register`, user, { headers: headers })
       .map(res => res.json())
-      .do(res => this.growls.next(res));
+      .do(res => this.growlmanagerService.generateGrowl(res))
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
   }
 
   authenticateUser(user) {
@@ -46,7 +49,11 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     return this.http.post(`${this.baseUrl}user/authenticate`, user, { headers: headers })
       .map(res => res.json())
-      .do(res => this.growls.next(res));
+      .do(res => this.growlmanagerService.generateGrowl(res))
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });;
   }
 
   storeUserData(token, user) {
@@ -69,6 +76,6 @@ export class AuthService {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
-    this.growls.next({ success: true, msg: 'Logged out' });
+    this.growlmanagerService.generateGrowl({ success: true, msg: 'Logged out', feedback: 0 });
   }
 }

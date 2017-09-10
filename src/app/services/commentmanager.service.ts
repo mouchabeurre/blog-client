@@ -1,28 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { AuthService } from './auth.service';
+import { GrowlmanagerService } from './growlmanager.service';
 import 'rxjs/add/operator/map';
-
 import { COMMENT } from '../models/comment';
 
 @Injectable()
 export class CommentmanagerService {
+  private baseUrl: string;
 
-  constructor(private http: Http, private AuthService: AuthService) { }
+  constructor(
+    private http: Http,
+    private AuthService: AuthService,
+    private growlmanagerService: GrowlmanagerService
+  ) {
+    this.baseUrl = 'http://localhost:3000/api/post/';
+  }
 
-  addComment(content: Object, id: string): Promise<{}> {
+  addComment(content: Object, id: string) {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    return this.http.post('http://localhost:3000/api/post/' + id + '/comment', content, { headers: headers })
-      .toPromise()
-      .then(response => response.json() as {})
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
+    return this.http.post(`${this.baseUrl}${id}/comment`, content, { headers: headers })
+      .map(res => res.json())
+      .do(res => this.growlmanagerService.generateGrowl(res))
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
   }
 
 }

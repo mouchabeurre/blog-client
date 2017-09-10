@@ -27,8 +27,8 @@
 
       <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.password.errors && (upForm.controls.password.dirty || upForm.controls.password.touched)">
         <div *ngIf="upForm.controls.password.errors.required">Password is required</div>
-        <div *ngIf="upForm.controls.password.errors.minlength">Password must be at least 6 characters long</div>
-        <div *ngIf="upForm.controls.password.errors.maxlength">Password must be at most 30 characters long</div>
+        <div *ngIf="upForm.controls.password.errors.minlength">Password must be at least {{ upForm.controls.password.errors.minlength.requiredLength }} characters long</div>
+        <div *ngIf="upForm.controls.password.errors.maxlength">Password must be at most {{ upForm.controls.password.errors.maxlength.requiredLength }} characters long</div>
       </ngb-alert>
 
     </div>

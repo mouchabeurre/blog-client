@@ -1,9 +1,15 @@
-<div *ngIf="post">
-  <h2>{{ post.title }}</h2>
-  <h3>{{ post.authorId.username }}</h3>
-  <p>{{ post.content }}</p>
-  <i>karma {{ post.karma }}, views {{ post.views }}</i>
-  <button (click)="upvotePost()">UPVOTE</button>
-  <button (click)="downvotePost()">DOWNVOTE</button>
-  <app-commentsection [comments]="post.comments"></app-commentsection>
+<div class="page-padding">
+  <div class="container">
+    <div class="blog-post" *ngIf="post">
+      <h2 class="blog-post-title">{{ post.title }}</h2>
+      <p class="blog-post-meta">{{ post.date | date }} by {{ post.authorId.username }}</p>
+      <p class="content">{{ post.content }}</p>
+      <div class="rating-section">
+        <button class="btn btn-secondary btn-sm" (click)="upvotePost()">+</button>
+        <button class="btn btn-secondary btn-sm" (click)="downvotePost()">-</button>
+        <i>karma {{ post.karma }}, views {{ post.views }}</i>
+      </div>
+      <app-commentsection [comments]="post.comments"></app-commentsection>
+    </div>
+  </div>
 </div>

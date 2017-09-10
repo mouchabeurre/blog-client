@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentmanagerService } from '../../services/commentmanager.service';
 import { AuthService } from '../../services/auth.service';
+import { GrowlmanagerService } from '../../services/growlmanager.service';
+import { ValidateService } from '../../services/validate.service';
 import { COMMENT } from '../../models/comment';
 
 @Component({
@@ -11,36 +14,48 @@ import { COMMENT } from '../../models/comment';
 })
 export class CommentsectionComponent implements OnInit {
   @Input() comments: COMMENT[];
-  newcomment: string;
+  upForm: FormGroup;
+
+  canCreateComment: boolean;
+  buttonToggleMessage: string;
 
   constructor(
     private commentmanager: CommentmanagerService,
     private ActivatedRoute: ActivatedRoute,
     private router: Router,
-    private AuthService: AuthService
-  ) { }
+    private fb: FormBuilder,
+    private validateService: ValidateService,
+    private authService: AuthService,
+    private growlmanagerService: GrowlmanagerService
+  ) {
+    this.canCreateComment = false;
+  }
 
   ngOnInit() {
+    this.upForm = this.fb.group({
+      newcomment: [null, [Validators.required, Validators.maxLength(300)]]
+    });
+  }
+
+  toggleCommentCreation() {
+    if (this.authService.loggedIn()) {
+      this.canCreateComment = !this.canCreateComment;
+    } else {
+      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to comment', feedback: 1 });
+    }
   }
 
   onCommentSubmit() {
-    if (this.AuthService.loggedIn()) {
-      if (this.newcomment.length > 0) {
-        this.ActivatedRoute.params.subscribe(params => {
-          const content = {
-            content: this.newcomment
-          }
-          this.commentmanager.addComment(content, params['id']).then(res => {
-            console.log(res),
-              err => {
-                console.log('error occurred:', err);
-              }
-          });
+    if (this.authService.loggedIn()) {
+      this.ActivatedRoute.params.subscribe(params => {
+        const content = {
+          content: this.upForm.controls.newcomment.value
+        }
+        this.commentmanager.addComment(content, params['id']).subscribe(res => {
+          this.comments.push(res.newComment);
+          console.log(res);
         });
-      } else {
-        console.log('Try again');
-        return false;
-      }
+      });
     } else {
       this.router.navigate(['/signin']);
     }

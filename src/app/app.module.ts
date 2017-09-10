@@ -12,6 +12,7 @@ import { AuthService } from './services/auth.service';
 import { PostmanagerService } from './services/postmanager.service';
 import { ProfilemanagerService } from './services/profilemanager.service';
 import { CommentmanagerService } from './services/commentmanager.service';
+import { GrowlmanagerService } from './services/growlmanager.service';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 // Components
@@ -57,6 +58,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     PostmanagerService,
     ProfilemanagerService,
     CommentmanagerService,
+    GrowlmanagerService
   ],
   bootstrap: [AppComponent]
 })
