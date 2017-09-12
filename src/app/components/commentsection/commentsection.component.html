@@ -1,6 +1,6 @@
 <button class="btn btn-secondary btn-sm comment-items" (click)="toggleCommentCreation()" [ngClass]="{
-  'active': canCreateComment,
-  'inactive': !canCreateComment
+  'text-area-active active': canCreateComment,
+  'text-area-inactive': !canCreateComment
 }">message creation</button>
 <div *ngIf="canCreateComment">
   <form class="" [formGroup]="upForm" (submit)="onCommentSubmit()">
@@ -24,13 +24,22 @@
 </div>
 
 <div *ngIf="comments && comments.length > 0">
-  <span *ngFor="let comment of comments">
-    <p class="comment-post-meta">{{ comment.authorId.username }} at {{ comment.date | date }}
-      <i *ngIf="comment.modified">modified</i>
-    </p>
-    <p class="content">{{ comment.content }}</p>
-    <button class="btn btn-secondary btn-sm">+</button>
-    <button class="btn btn-secondary btn-sm">-</button>
-    <i>karma {{ comment.karma }}</i>
-  </span>
+  <div class="comment container-fluid" *ngFor="let comment of comments">
+    <div class="comment-reply">
+      <span>reply</span>
+    </div>
+    <div class="comment-meta">
+      <span>{{ comment.authorId.username }} at {{ comment.date | date: 'HH:mm' }}, {{ comment.date | date }}
+        <i *ngIf="comment.modified">modified</i>
+      </span>
+    </div>
+    <div class="comment-vote">
+      <button class="btn btn-secondary btn-sm" (click)="upvoteComment(comment)">+</button>
+      <span>{{ comment.karma }}</span>
+      <button class="btn btn-secondary btn-sm" (click)="downvoteComment(comment)">-</button>
+    </div>
+    <div class="comment-content">
+      <span>{{ comment.content }}</span>
+    </div>
+  </div>
 </div>

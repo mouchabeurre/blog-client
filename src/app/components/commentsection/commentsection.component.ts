@@ -53,11 +53,39 @@ export class CommentsectionComponent implements OnInit {
         }
         this.commentmanager.addComment(content, params['id']).subscribe(res => {
           this.comments.push(res.newComment);
-          console.log(res);
+          this.upForm.reset();
         });
       });
     } else {
-      this.router.navigate(['/signin']);
+      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote comment', feedback: 1 });
+    }
+  }
+
+  upvoteComment(comment: COMMENT) {
+    if (this.authService.loggedIn()) {
+      this.commentmanager.upvoteComment(comment.shortCommentId).subscribe(res => {
+        if (res.success) {
+          this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).karma += res.voted;
+        } else {
+          this.growlmanagerService.generateGrowl({ success: false, msg: res.msg, feedback: 3 });
+        }
+      });
+    } else {
+      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote comment', feedback: 1 });
+    }
+  }
+
+  downvoteComment(comment: COMMENT) {
+    if (this.authService.loggedIn()) {
+      this.commentmanager.downvoteComment(comment.shortCommentId).subscribe(res => {
+        if (res.success) {
+          this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).karma += res.voted;
+        } else {
+          this.growlmanagerService.generateGrowl({ success: false, msg: res.msg, feedback: 3 });
+        }
+      });
+    } else {
+      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote comment', feedback: 1 });
     }
   }
 

@@ -7,13 +7,19 @@ import { POST } from '../models/post';
 
 @Injectable()
 export class PostmanagerService {
+  private baseUrl: string;
 
-  constructor(private http: Http, private AuthService: AuthService) { }
+  constructor(
+    private http: Http,
+    private AuthService: AuthService
+  ) {
+    this.baseUrl = 'http://localhost:3000/api/';
+  }
 
   getPostFeed(): Promise<POST[]> {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/api/feed/', { headers: headers })
+    return this.http.get(`${this.baseUrl}feed`, { headers: headers })
       .toPromise()
       .then(response => response.json() as POST[])
       .catch(this.handleError);
@@ -22,7 +28,7 @@ export class PostmanagerService {
   getPost(id: string): Promise<POST> {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/api/post/' + id, { headers: headers })
+    return this.http.get(`${this.baseUrl}post/${id}`, { headers: headers })
       .toPromise()
       .then(response => response.json() as POST)
       .catch(this.handleError);
@@ -32,7 +38,7 @@ export class PostmanagerService {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    return this.http.put('http://localhost:3000/api/post/' + id + '/upvote', null, { headers: headers })
+    return this.http.put(`${this.baseUrl}post/${id}/upvote`, null, { headers: headers })
       .toPromise()
       .then(response => response.json() as {})
       .catch(this.handleError);
@@ -42,7 +48,7 @@ export class PostmanagerService {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    return this.http.put('http://localhost:3000/api/post/' + id + '/downvote', null, { headers: headers })
+    return this.http.put(`${this.baseUrl}post/${id}/downvote`, null, { headers: headers })
       .toPromise()
       .then(response => response.json() as {})
       .catch(this.handleError);

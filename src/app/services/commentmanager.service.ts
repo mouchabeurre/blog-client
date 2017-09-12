@@ -14,16 +14,40 @@ export class CommentmanagerService {
     private AuthService: AuthService,
     private growlmanagerService: GrowlmanagerService
   ) {
-    this.baseUrl = 'http://localhost:3000/api/post/';
+    this.baseUrl = 'http://localhost:3000/api/';
   }
 
   addComment(content: Object, id: string) {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    return this.http.post(`${this.baseUrl}${id}/comment`, content, { headers: headers })
+    return this.http.post(`${this.baseUrl}post/${id}/comment`, content, { headers: headers })
       .map(res => res.json())
       .do(res => this.growlmanagerService.generateGrowl(res))
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
+  upvoteComment(id: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.AuthService.authToken);
+    return this.http.put(`${this.baseUrl}comment/${id}/upvote`, null, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
+  downvoteComment(id: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.AuthService.authToken);
+    return this.http.put(`${this.baseUrl}comment/${id}/downvote`, null, { headers: headers })
+      .map(res => res.json())
       .catch((err) => {
         this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
         return err;

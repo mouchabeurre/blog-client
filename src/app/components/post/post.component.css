@@ -22,3 +22,7 @@
 .rating-section {
   margin-bottom: 1rem;
 }
+
+.vote {
+  width: 35px;
+}
