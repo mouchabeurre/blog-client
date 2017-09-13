@@ -53,7 +53,7 @@ export class AuthService {
       .catch((err) => {
         this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
         return err;
-      });;
+      });
   }
 
   storeUserData(token, user) {

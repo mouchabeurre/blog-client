@@ -69,7 +69,6 @@ export class CommentsectionComponent implements OnInit {
   }
 
   upvoteComment(comment: COMMENT) {
-    console.log(comment);
     if (this.authService.loggedIn()) {
       this.commentmanager.upvoteComment(comment.shortCommentId).subscribe(res => {
         if (res.success) {
@@ -88,7 +87,6 @@ export class CommentsectionComponent implements OnInit {
   }
 
   downvoteComment(comment: COMMENT) {
-    console.log(comment);
     if (this.authService.loggedIn()) {
       this.commentmanager.downvoteComment(comment.shortCommentId).subscribe(res => {
         if (res.success) {

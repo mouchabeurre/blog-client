@@ -7,10 +7,16 @@
 
 h2 {
   margin-bottom: 20px;
+	width: 12rem;
   padding-bottom: 9px;
   border-bottom: 1px solid #eee;
 }
 
 .card {
   margin-bottom: 2rem;
+}
+
+.newpost {
+	display: flex;
+	float: right;
 }

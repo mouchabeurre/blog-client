@@ -26,6 +26,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { CommentsectionComponent } from './components/commentsection/commentsection.component';
 import { GrowlerComponent } from './components/growler/growler.component';
+import { PostcreatorComponent } from './components/postcreator/postcreator.component';
 // Pipes
 import { TruncatePipe } from './pipes/truncate.pipe';
 
@@ -40,7 +41,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     SigninComponent,
     CommentsectionComponent,
     TruncatePipe,
-    GrowlerComponent
+    GrowlerComponent,
+    PostcreatorComponent
   ],
   imports: [
     BrowserModule,

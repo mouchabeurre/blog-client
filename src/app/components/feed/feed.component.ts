@@ -11,7 +11,10 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
 export class FeedComponent implements OnInit {
   feed: Object[];
 
-  constructor(private postManager: PostmanagerService, private router: Router) { }
+  constructor(
+    private postManager: PostmanagerService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.getFeed();

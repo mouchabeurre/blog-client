@@ -1,0 +1,51 @@
+<div class="page-padding">
+  <div class="container">
+    <div class="blog-post">
+      <form class="" [formGroup]="upForm" (submit)="onPostSumbit()">
+        <div class="form-group" [ngClass]="{
+            'has-danger': upForm.controls.title.invalid && (upForm.controls.title.dirty || upForm.controls.title.touched),
+            'has-success': upForm.controls.title.valid && (upForm.controls.title.dirty || upForm.controls.title.touched)
+          }">
+          <label class="sr-only" for="inputTitle">Title</label>
+          <input type="text" id="inputTitle" placeholder="Title" formControlName="title" class="form-control" [ngClass]="{
+              'input-merge-bot': upForm.controls.title.errors && (upForm.controls.title.dirty || upForm.controls.title.touched)
+            }">
+
+          <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.title.errors && (upForm.controls.title.dirty || upForm.controls.title.touched)">
+            <div *ngIf="upForm.controls.title.errors.required">Title is required</div>
+            <div *ngIf="upForm.controls.title.errors.minlength">Title must be at least {{ upForm.controls.title.errors.minlength.requiredLength }} characters long</div>
+            <div *ngIf="upForm.controls.title.errors.maxlength">Title must be at most {{ upForm.controls.title.errors.maxlength.requiredLength }} characters long</div>
+          </ngb-alert>
+
+        </div>
+        <p class="blog-post-meta"><i>post date</i> by <i>author</i></p>
+        <div class="form-group" [ngClass]="{
+          'has-danger': upForm.controls.image.invalid && (upForm.controls.image.dirty || upForm.controls.image.touched),
+          'has-success': upForm.controls.image.valid && (upForm.controls.image.dirty || upForm.controls.image.touched)
+        }">
+          <label class="sr-only" for="inputImage">Thumbnail</label>
+          <input type="text" id="inputImage" placeholder="Image url" formControlName="image" class="form-control" [ngClass]="{
+            'input-merge-bot': upForm.controls.image.errors && (upForm.controls.image.dirty || upForm.controls.image.touched)
+          }">
+
+        </div>
+        <div class="form-group content" [ngClass]="{
+            'has-danger': upForm.controls.postcontent.invalid && (upForm.controls.postcontent.dirty || upForm.controls.postcontent.touched),
+            'has-success': upForm.controls.postcontent.valid && (upForm.controls.postcontent.dirty || upForm.controls.postcontent.touched)
+          }">
+          <label class="sr-only" for="inputPostcontent">Post content</label>
+          <textarea type="text" id="inputPostcontent" placeholder="Post content" formControlName="postcontent" class="form-control" [ngClass]="{
+              'input-merge-bot': upForm.controls.postcontent.errors && (upForm.controls.postcontent.dirty || upForm.controls.postcontent.touched)
+            }"></textarea>
+
+          <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.postcontent.errors && (upForm.controls.postcontent.dirty || upForm.controls.postcontent.touched)">
+            <div *ngIf="upForm.controls.postcontent.errors.required">Content is required</div>
+            <div *ngIf="upForm.controls.postcontent.errors.maxlength">Content must be at most {{ upForm.controls.postcontent.errors.maxlength.requiredLength }} characters long</div>
+          </ngb-alert>
+
+        </div>
+        <input type="submit" [disabled]="!upForm.valid" class="btn btn-block btn-primary comment-items" value="Submit">
+      </form>
+    </div>
+  </div>
+</div>
