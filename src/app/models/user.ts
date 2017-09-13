@@ -1,4 +1,4 @@
-export class SELFUSER {
+export interface SELFUSER {
   _id: string;
   name: string;
   email: string;
@@ -10,7 +10,7 @@ export class SELFUSER {
   shortUserId: string;
 }
 
-export class USER {
+export interface USER {
   username: string;
   favourites: string[];
   comments: string[];

@@ -48,6 +48,14 @@
   width: 35px;
 }
 
+.upvoted {
+  background-color: rgba(69, 230, 80, 0.37);
+}
+
+.downvoted {
+  background-color: rgba(230, 69, 69, 0.37);
+}
+
 .comment-vote span {
   display: block;
   margin: 0.3rem auto;
@@ -66,8 +74,8 @@
   height: 7.8rem;
   border-radius: .25rem;
   display: flex;
-  justify-content:center;
-  align-items:center;
+  justify-content: center;
+  align-items: center;
   opacity: 0;
 }
 

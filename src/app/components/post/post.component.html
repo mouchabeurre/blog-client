@@ -9,7 +9,7 @@
         <button class="btn btn-secondary btn-sm vote" (click)="downvotePost()">-</button>
         <i>karma {{ post.karma }}, views {{ post.views }}</i>
       </div>
-      <app-commentsection [comments]="post.comments"></app-commentsection>
+      <app-commentsection [comments]="post.comments" [shortPostId]="post.shortPostId"></app-commentsection>
     </div>
   </div>
 </div>

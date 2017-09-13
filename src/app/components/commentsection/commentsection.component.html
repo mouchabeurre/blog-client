@@ -34,9 +34,13 @@
       </span>
     </div>
     <div class="comment-vote">
-      <button class="btn btn-secondary btn-sm" (click)="upvoteComment(comment)">+</button>
+      <button class="btn btn-secondary btn-sm" (click)="upvoteComment(comment)" [ngClass]="{
+        'active upvoted': comment.vote !== null && comment.vote == 1
+      }">+</button>
       <span>{{ comment.karma }}</span>
-      <button class="btn btn-secondary btn-sm" (click)="downvoteComment(comment)">-</button>
+      <button class="btn btn-secondary btn-sm" (click)="downvoteComment(comment)" [ngClass]="{
+        'active downvoted': comment.vote !== null && comment.vote == -1
+      }">-</button>
     </div>
     <div class="comment-content">
       <span>{{ comment.content }}</span>

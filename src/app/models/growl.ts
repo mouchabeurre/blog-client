@@ -1,4 +1,4 @@
-export class GROWL {
+export interface GROWL {
   success: boolean;
   msg: string;
   feedback: number;

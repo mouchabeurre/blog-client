@@ -30,6 +30,18 @@ export class CommentmanagerService {
       });
   }
 
+  getCommentsVote(id: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.AuthService.authToken);
+    return this.http.get(`${this.baseUrl}post/${id}/cvotes`, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
   upvoteComment(id: string) {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
