@@ -19,11 +19,17 @@ export class ValidateService {
 
   constructor() { }
 
-  validateRegister(user) {
-    if (user.name === undefined || user.username === undefined || user.email === undefined || user.password === undefined) {
-      return false;
-    } else {
-      return true;
+  matchingPasswords() {
+    return (c: AbstractControl) => {
+      if (!c.parent) {
+        return null;
+      } else {
+        if (c.value !== c.parent.get('password').value) {
+          return ({ mismatch: true });
+        } else {
+          return null;
+        }
+      }
     }
   }
 

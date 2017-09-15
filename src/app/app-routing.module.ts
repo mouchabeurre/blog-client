@@ -10,7 +10,7 @@ import { PostComponent } from './components/post/post.component';
 import { PostcreatorComponent } from './components/postcreator/postcreator.component';
 
 const appRoutes: Routes = [
-  { path: '', component: FeedComponent },
+  { path: 'feed', component: FeedComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'user/:username', component: ProfileComponent },

@@ -39,7 +39,7 @@ export class PostcreatorComponent implements OnInit {
 
     this.postcreatormanagerService.newpost(post).subscribe(data => {
       if (data.success) {
-        this.growlmanagerService.generateGrowl({ success: true, msg: "Post submitted", feedback: 0 });
+        this.growlmanagerService.generateGrowl({ success: true, msg: data.msg, feedback: 0 });
         this.router.navigate(['']);
       }
       else {

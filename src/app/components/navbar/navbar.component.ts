@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { LOCALUSER } from '../../models/user'
 
 
 @Component({
@@ -9,12 +10,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  username: string;
 
   constructor(
     private authService: AuthService,
     private router: Router) { }
 
   ngOnInit() {
+    if (this.authService.loggedIn()) {
+      this.username = this.authService.user.username;
+    }
   }
 
   onLogoutClick() {

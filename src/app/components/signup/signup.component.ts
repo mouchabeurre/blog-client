@@ -24,7 +24,8 @@ export class SignupComponent implements OnInit {
       name: [null, [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z\d]+')]],
       username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('[a-zA-Z\d]+')], [this.validateService.usernameAvailable(this.authService)]],
       email: [null, [Validators.required, Validators.email], [this.validateService.emailAvailable(this.authService)]],
-      password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]]
+      password: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
+      confirmPassword: [null, [Validators.required, this.validateService.matchingPasswords()]]
     });
   }
 
@@ -35,7 +36,6 @@ export class SignupComponent implements OnInit {
       username: this.upForm.controls.username.value,
       password: this.upForm.controls.password.value
     }
-    console.log(user);
 
     // Register user
     this.authService.registerUser(user).subscribe(data => {

@@ -1,10 +1,13 @@
-<div *ngIf="selfuser">
+<div class="user-details" *ngIf="selfuser">
   <h2>
   Here is your profile {{ selfuser.name }}
   </h2>
-  <p>{{ selfuser.username }}</p>
-  <p>{{ selfuser.email }}</p>
-  <p>{{ selfuser.karma }}</p>
-  <p>{{ selfuser.date }}</p>
-  <p>{{ selfuser.ShortUserId }}</p>
+  <dt>Username</dt>
+  <dd>{{ selfuser.username }}</dd>
+  <dt>Email</dt>
+  <dd>{{ selfuser.email }}</dd>
+  <dt>Registration date</dt>
+  <dd>{{ selfuser.date | date }}</dd>
+  <dt>Global karma</dt>
+  <dd>{{ selfuser.karma }}</dd>
 </div>

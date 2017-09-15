@@ -68,8 +68,24 @@
 
       <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.password.errors && (upForm.controls.password.dirty || upForm.controls.password.touched)">
         <div *ngIf="upForm.controls.password.errors.required">Password is required</div>
-        <div *ngIf="upForm.controls.password.errors.minlength">Password must be at least {{ upForm.controls.password.errors.minlength.requiredLength }} characters long ({{ upForm.controls.password.errors.minlength.requiredLength - upForm.controls.password.errors.minlength.actualLength }} to go)</div>
+        <div *ngIf="upForm.controls.password.errors.minlength">Password must be at least {{ upForm.controls.password.errors.minlength.requiredLength }} characters long ({{ upForm.controls.password.errors.minlength.requiredLength - upForm.controls.password.errors.minlength.actualLength
+          }} to go)</div>
         <div *ngIf="upForm.controls.password.errors.maxlength">Password must be at most {{ upForm.controls.password.errors.maxlength.requiredLength }} characters long</div>
+      </ngb-alert>
+
+    </div>
+    <div class="form-group" [ngClass]="{
+        'has-danger': upForm.controls.confirmPassword.invalid && (upForm.controls.confirmPassword.dirty || upForm.controls.confirmPassword.touched),
+        'has-success': upForm.controls.confirmPassword.valid && (upForm.controls.confirmPassword.dirty || upForm.controls.confirmPassword.touched)
+    }">
+      <label class="sr-only" for="inputConfirmPassword">Confirm password</label>
+      <input type="password" id="inputConfirmPassword" placeholder="Confirm password" formControlName="confirmPassword" class="form-control" [ngClass]="{
+        'input-merge-bot': upForm.controls.confirmPassword.errors && (upForm.controls.confirmPassword.dirty || upForm.controls.confirmPassword.touched)
+      }">
+
+      <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.confirmPassword.errors && (upForm.controls.confirmPassword.dirty || upForm.controls.confirmPassword.touched)">
+        <div *ngIf="upForm.controls.confirmPassword.errors.required">Confirm password is required</div>
+        <div *ngIf="upForm.controls.confirmPassword.errors.mismatch && upForm.controls.confirmPassword.value.length > 0">Passwords are not matching</div>
       </ngb-alert>
 
     </div>

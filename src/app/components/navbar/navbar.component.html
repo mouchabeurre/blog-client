@@ -3,10 +3,10 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-    <a class="navbar-brand" routerLink="/">Wow blog</a>
+    <a class="navbar-brand" routerLink="/feed">Wow blog</a>
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar2">
       <div class="navbar-nav mr-auto">
-        <!-- <a class="nav-item nav-link" routerLink="/aezd" routerLinkActive="active">Feed</a> -->
+        <a class="nav-item nav-link" routerLink="/feed" routerLinkActive="active">Feed</a>
         <a class="nav-item nav-link" *ngIf="authService.loggedIn()" routerLink="/profile" routerLinkActive="active">Profile</a>
         <a class="nav-item nav-link" *ngIf="!authService.loggedIn()" routerLink="/signup" routerLinkActive="active">Sign up</a>
         <a class="nav-item nav-link" *ngIf="!authService.loggedIn()" routerLink="/signin" routerLinkActive="active">Sign in</a>

@@ -10,6 +10,13 @@ export interface SELFUSER {
   shortUserId: string;
 }
 
+export interface LOCALUSER {
+  username: string;
+  name: string
+  email: string;
+  shortUserId: string;
+}
+
 export interface USER {
   username: string;
   favourites: string[];

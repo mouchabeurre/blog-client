@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { GrowlmanagerService } from './growlmanager.service';
+import { LOCALUSER } from '../models/user'
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
   private baseUrl: string;
   authToken: any;
-  user: any;
+  user: LOCALUSER;
 
   constructor(
     private http: Http,
@@ -65,7 +66,9 @@ export class AuthService {
 
   loadToken() {
     const token = localStorage.getItem('id_token');
+    const user = JSON.parse(localStorage.getItem('user'));
     this.authToken = token;
+    this.user = user;
   }
 
   loggedIn() {
@@ -78,4 +81,5 @@ export class AuthService {
     localStorage.clear();
     this.growlmanagerService.generateGrowl({ success: true, msg: 'Logged out', feedback: 0 });
   }
+
 }

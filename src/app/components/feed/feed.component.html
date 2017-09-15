@@ -8,13 +8,13 @@
       <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>fetching feed</i></ngb-progressbar>
     </p>
     <div class="row">
-      <div class="card-deck" *ngIf="feed">
+      <div class="card-deck col 12" *ngIf="feed">
         <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let post of feed">
           <div class="card">
             <img class="card-img-top img-fluid" src="{{ post.imageURL }}">
             <div class="card-block">
               <h4 class="card-title">{{ post.title }}</h4>
-              <p class="card-text">{{ post.content | truncate: 12}}</p>
+              <p class="card-text">{{ post.content | truncate: 7}}</p>
               <button class="btn btn-primary btn-block" (click)="onSelectPost(post)">View</button>
             </div>
             <div class="card-footer">

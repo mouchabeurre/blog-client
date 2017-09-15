@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit {
   constructor(private profileManager: ProfilemanagerService) { }
 
   ngOnInit() {
-    this.profileManager.getProfile().then(profile => {
+    this.profileManager.getProfile().subscribe(profile => {
       this.selfuser = profile;
     },
       err => {
