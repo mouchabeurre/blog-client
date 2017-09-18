@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PostmanagerService } from '../../services/postmanager.service';
 import { CommentsectionComponent } from '../commentsection/commentsection.component'
 import { AuthService } from '../../services/auth.service';
+import { GrowlmanagerService } from '../../services/growlmanager.service';
 import { POST } from '../../models/post';
 
 @Component({
@@ -17,44 +18,59 @@ export class PostComponent implements OnInit {
     private postManager: PostmanagerService,
     private ActivatedRoute: ActivatedRoute,
     private router: Router,
-    private AuthService: AuthService
+    private authService: AuthService,
+    private growlmanagerService: GrowlmanagerService
   ) { }
 
-  ngOnInit(): void {
-    this.getPost();
-  }
-
-  getPost(): void {
+  ngOnInit() {
     this.ActivatedRoute.params.subscribe(params => {
-      this.postManager.getPost(params['id']).then(post => {
-        this.post = post;
+      this.postManager.getPost(params['id']).subscribe(respost => {
+        if (respost.success) {
+          this.post = respost.post;
+          if (this.authService.loggedIn()) {
+            this.postManager.getPostVote(params['id']).subscribe(resvote => {
+              if (resvote.success) {
+                this.post.vote = resvote.vote;
+              }
+            });
+          }
+        } else {
+          this.growlmanagerService.generateGrowl({ success: false, msg: respost.msg, feedback: 3 });
+        }
       });
     });
   }
 
   upvotePost() {
-    if (this.AuthService.loggedIn()) {
-      this.postManager.upvotePost(this.post.shortPostId).then(res => {
-        this.post.karma++ ,
-          err => {
-            console.log('error occure:', err);
-          }
+    if (this.authService.loggedIn()) {
+      this.postManager.upvotePost(this.post.shortPostId).subscribe(res => {
+        if(res.success){
+          this.post.karma += res.vote;
+          this.post.vote += res.vote;
+        } else {
+          this.growlmanagerService.generateGrowl({ success: false, msg: res.msg, feedback: 3 });
+        }
       });
     } else {
-      this.router.navigate(['/signin']);
+      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote', feedback: 1 });
+      // this.router.navigate(['/signin']);
     }
   }
 
   downvotePost() {
-    if (this.AuthService.loggedIn()) {
-      this.postManager.downvotePost(this.post.shortPostId).then(res => {
-        this.post.karma-- ,
-          err => {
-            console.log('error occure:', err);
-          }
+    if (this.authService.loggedIn()) {
+      this.postManager.downvotePost(this.post.shortPostId).subscribe(res => {
+        if(res.success){
+          this.post.karma += res.vote;
+          this.post.vote += res.vote;
+        } else {
+          this.growlmanagerService.generateGrowl({ success: false, msg: res.msg, feedback: 3 });
+        }
       });
     } else {
-      this.router.navigate(['/signin']);
+      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote', feedback: 1 });
+      // this.router.navigate(['/signin']);
     }
   }
+
 }

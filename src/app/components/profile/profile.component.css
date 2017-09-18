@@ -1,5 +1,34 @@
 .user-details {
-	max-width: 500px;
-	padding: 15px;
-	margin: 0 auto;
+  padding-top: 3rem;
+}
+
+.profile-header {
+  padding-bottom: 3rem;
+}
+
+.tab-content {
+  padding: 1rem 2rem;
+  border-left: 1px solid transparent;
+  border-color: #ddd #ddd #fff;
+}
+
+.tab-info {
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.v-positive {
+	padding: 2px 8px;
+	border-radius: .25rem;
+	background-color: rgba(69, 230, 80, 0.37);
+}
+
+.v-negative {
+	padding: 2px 8px;
+	border-radius: .25rem;
+	background-color: rgba(230, 69, 69, 0.37);
+}
+
+.list-group-item {
+  background: rgb(247, 247, 247);
 }

@@ -7,10 +7,10 @@
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar2">
       <div class="navbar-nav mr-auto">
         <a class="nav-item nav-link" routerLink="/feed" routerLinkActive="active">Feed</a>
-        <a class="nav-item nav-link" *ngIf="authService.loggedIn()" routerLink="/profile" routerLinkActive="active">Profile</a>
-        <a class="nav-item nav-link" *ngIf="!authService.loggedIn()" routerLink="/signup" routerLinkActive="active">Sign up</a>
-        <a class="nav-item nav-link" *ngIf="!authService.loggedIn()" routerLink="/signin" routerLinkActive="active">Sign in</a>
-        <a class="nav-item nav-link" *ngIf="authService.loggedIn()" (click)="onLogoutClick()" href="#">Logout</a>
+        <a class="nav-item nav-link" *ngIf="isLoggedIn()" routerLink="/profile" routerLinkActive="active">Profile</a>
+        <a class="nav-item nav-link" *ngIf="!isLoggedIn()" routerLink="/signup" routerLinkActive="active">Sign up</a>
+        <a class="nav-item nav-link" *ngIf="!isLoggedIn()" routerLink="/signin" routerLinkActive="active">Sign in</a>
+        <a class="nav-item nav-link" *ngIf="isLoggedIn()" (click)="onLogoutClick()" href="#">Logout</a>
       </div>
     </div>
   </div>

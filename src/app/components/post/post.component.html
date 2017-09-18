@@ -2,11 +2,16 @@
   <div class="container">
     <div class="blog-post" *ngIf="post">
       <h2 class="blog-post-title">{{ post.title }}</h2>
-      <p class="blog-post-meta">{{ post.date | date }} at {{ post.date | date: 'HH:mm' }} by {{ post.authorId.username }}</p>
+      <p class="blog-post-meta">{{ post.date | date }} at {{ post.date | date: 'HH:mm' }} by
+        <a [routerLink]="['/user', post.authorId.username]">{{ post.authorId.username }}</a></p>
       <p class="content">{{ post.content }}</p>
       <div class="rating-section">
-        <button class="btn btn-secondary btn-sm vote" (click)="upvotePost()">+</button>
-        <button class="btn btn-secondary btn-sm vote" (click)="downvotePost()">-</button>
+        <button class="btn btn-secondary btn-sm vote" (click)="upvotePost()" [ngClass]="{
+          'active upvoted': post.vote !== null && post.vote == 1
+        }">+</button>
+        <button class="btn btn-secondary btn-sm vote" (click)="downvotePost()" [ngClass]="{
+          'active downvoted': post.vote !== null && post.vote == -1
+        }">-</button>
         <i>karma {{ post.karma }}, views {{ post.views }}</i>
       </div>
       <app-commentsection [comments]="post.comments" [shortPostId]="post.shortPostId"></app-commentsection>

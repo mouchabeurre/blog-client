@@ -3,60 +3,75 @@ import { Http, Headers } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { AuthService } from './auth.service';
 import 'rxjs/add/operator/toPromise';
+import { GrowlmanagerService } from './growlmanager.service';
 import { POST } from '../models/post';
+import { baseUrl } from '../base-url';
 
 @Injectable()
 export class PostmanagerService {
-  private baseUrl: string;
 
   constructor(
     private http: Http,
-    private AuthService: AuthService
-  ) {
-    this.baseUrl = 'http://localhost:3000/api/';
-  }
+    private AuthService: AuthService,
+    private growlmanagerService: GrowlmanagerService
+  ) { }
 
-  getPostFeed(): Promise<POST[]> {
+  getPostFeed() {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.get(`${this.baseUrl}feed`, { headers: headers })
-      .toPromise()
-      .then(response => response.json() as POST[])
-      .catch(this.handleError);
+    return this.http.get(`${baseUrl}feed`, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
   }
 
-  getPost(id: string): Promise<POST> {
+  getPost(id: string) {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.get(`${this.baseUrl}post/${id}`, { headers: headers })
-      .toPromise()
-      .then(response => response.json() as POST)
-      .catch(this.handleError);
+    return this.http.get(`${baseUrl}post/${id}`, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
   }
 
-  upvotePost(id: string): Promise<{}> {
-    const headers = new Headers;
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', this.AuthService.authToken);
-    return this.http.put(`${this.baseUrl}post/${id}/upvote`, null, { headers: headers })
-      .toPromise()
-      .then(response => response.json() as {})
-      .catch(this.handleError);
-  }
-
-  downvotePost(id: string): Promise<{}> {
+  getPostVote(id: string) {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    return this.http.put(`${this.baseUrl}post/${id}/downvote`, null, { headers: headers })
-      .toPromise()
-      .then(response => response.json() as {})
-      .catch(this.handleError);
+    return this.http.get(`${baseUrl}post/${id}/pvote`, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
+  upvotePost(id: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.AuthService.authToken);
+    return this.http.put(`${baseUrl}post/${id}/upvote`, null, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
+  downvotePost(id: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.AuthService.authToken);
+    return this.http.put(`${baseUrl}post/${id}/downvote`, null, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
   }
 
 }

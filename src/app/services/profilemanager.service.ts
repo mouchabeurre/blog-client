@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { AuthService } from './auth.service';
 import { GrowlmanagerService } from './growlmanager.service';
+import { baseUrl } from '../base-url';
 
 import { SELFUSER } from '../models/user';
 import 'rxjs/add/operator/toPromise';
@@ -16,11 +17,22 @@ export class ProfilemanagerService {
     private growlmanagerService: GrowlmanagerService
   ) { }
 
-  getProfile() {
+  getOwnProfile() {
     const headers = new Headers
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
-    return this.http.get('http://localhost:3000/api/profile/', { headers: headers })
+    return this.http.get(`${baseUrl}profile`, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
+  getProfile(username: string) {
+    const headers = new Headers
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`${baseUrl}user/${username}`, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });

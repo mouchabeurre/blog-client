@@ -1,13 +1,87 @@
-<div class="user-details" *ngIf="selfuser">
-  <h2>
-  Here is your profile {{ selfuser.name }}
-  </h2>
-  <dt>Username</dt>
-  <dd>{{ selfuser.username }}</dd>
-  <dt>Email</dt>
-  <dd>{{ selfuser.email }}</dd>
-  <dt>Registration date</dt>
-  <dd>{{ selfuser.date | date }}</dd>
-  <dt>Global karma</dt>
-  <dd>{{ selfuser.karma }}</dd>
+<div class="user-details container">
+  <div *ngIf="user; else loaddingBar">
+    <h2 class="profile-header" *ngIf="selfProfile; else theirHeader">Here is your profile {{ user.name }}</h2>
+    <ng-template #theirHeader>
+      <h2 class="profile-header">{{ user.username }}'s profile</h2>
+    </ng-template>
+    <ngb-tabset class="nav-fill user-details">
+      <ngb-tab title="About">
+        <ng-template ngbTabContent>
+          <div class="tab-content">
+            <div *ngIf="selfProfile">
+              <dt>Name</dt>
+              <dd>{{ user.name }}</dd>
+            </div>
+            <div>
+              <dt>Username</dt>
+              <dd>{{ user.username }}</dd>
+            </div>
+            <div *ngIf="selfProfile">
+              <dt>Email</dt>
+              <dd>{{ user.email }}</dd>
+            </div>
+            <div>
+              <dt>Registration date</dt>
+              <dd>{{ user.date | date }}</dd>
+            </div>
+            <div>
+              <dt>Global karma</dt>
+              <dd>{{ user.karma }}</dd>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Posts">
+        <ng-template ngbTabContent>
+          <div class="tab-content">
+            <div *ngIf="user.posts && user.posts.length > 0; else noPostToShow">
+              <div class="tab-info">{{ user.posts.length }} submitted posts: </div>
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let post of user.posts">
+                  <span>
+                    {{ post.date | date }} |
+                    <span [ngClass]="{
+                      'v-positive': post.karma >= 0,
+                      'v-negative': post.karma < 0
+                    }">{{ post.karma }}</span> |
+                    <a [routerLink]="['/post', post.shortPostId]">{{ post.title | truncate: 11 }}</a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <ng-template #noPostToShow>
+              <div class="tab-info">No post submitted yet</div>
+            </ng-template>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Comments">
+        <ng-template ngbTabContent>
+          <div class="tab-content">
+            <div *ngIf="user.comments && user.comments.length > 0; else noCommentToShow">
+              <div class="tab-info">{{ user.comments.length }} submitted comments: </div>
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let comment of user.comments">
+                  <span>
+                    {{ comment.date | date }} |
+                    <span [ngClass]="{
+                      'v-positive': comment.karma >= 0,
+                      'v-negative': comment.karma < 0
+                    }">{{ comment.karma }}</span> |
+                    <a [routerLink]="['/post', comment.shortPostId]">{{ comment.content | truncate: 11 }}</a>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <ng-template #noCommentToShow>
+              <div class="tab-info">No comment submitted yet</div>
+            </ng-template>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+  <ng-template #loaddingBar>
+    <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>fetching profile infos</i></ngb-progressbar>
+  </ng-template>
 </div>

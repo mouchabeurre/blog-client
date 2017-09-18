@@ -11,6 +11,7 @@ import { LOCALUSER } from '../../models/user'
 })
 export class NavbarComponent implements OnInit {
   username: string;
+  isNavbarCollapsed: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -20,6 +21,10 @@ export class NavbarComponent implements OnInit {
     if (this.authService.loggedIn()) {
       this.username = this.authService.user.username;
     }
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.loggedIn();
   }
 
   onLogoutClick() {

@@ -26,3 +26,11 @@
 .vote {
   width: 35px;
 }
+
+.upvoted {
+  background-color: rgba(69, 230, 80, 0.37);
+}
+
+.downvoted {
+  background-color: rgba(230, 69, 69, 0.37);
+}

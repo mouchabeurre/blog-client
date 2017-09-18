@@ -15,4 +15,5 @@ export interface POST {
   date: Date;
   shortPostId: string;
   comments: Comment[];
+  vote?: number;
 }

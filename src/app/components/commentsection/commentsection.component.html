@@ -29,7 +29,8 @@
       <span>reply</span>
     </div>
     <div class="comment-meta">
-      <span>{{ comment.authorId.username }} at {{ comment.date | date: 'HH:mm' }}, {{ comment.date | date }}
+      <span><a [routerLink]="['/user', comment.authorId.username]">{{ comment.authorId.username }}</a>
+         at {{ comment.date | date: 'HH:mm' }}, {{ comment.date | date }}
         <i *ngIf="comment.modified">modified</i>
       </span>
     </div>

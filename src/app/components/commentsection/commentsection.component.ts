@@ -60,7 +60,7 @@ export class CommentsectionComponent implements OnInit {
         content: this.upForm.controls.newcomment.value
       }
       this.commentmanager.addComment(content, this.shortPostId).subscribe(res => {
-        this.comments.push(res.newComment);
+        this.comments.unshift(res.newComment);
         this.upForm.reset();
       });
     } else {

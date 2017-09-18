@@ -4,10 +4,7 @@
       <a class="btn btn-primary newpost" routerLink="/newpost" routerLinkActive="active">New post</a>
       <h2>New Posts</h2>
     </div>
-    <p *ngIf="feed == undefined">
-      <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>fetching feed</i></ngb-progressbar>
-    </p>
-    <div class="row">
+    <div class="row" *ngIf="feed; else loaddingBar">
       <div class="card-deck col 12" *ngIf="feed">
         <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let post of feed">
           <div class="card">
@@ -18,11 +15,16 @@
               <button class="btn btn-primary btn-block" (click)="onSelectPost(post)">View</button>
             </div>
             <div class="card-footer">
-              <small class="text-muted">{{ post.date | date }} by {{ post.authorId.username }}</small>
+              <small class="text-muted">{{ post.date | date }} by
+                <a [routerLink]="['/user', post.authorId.username]">{{ post.authorId.username }}</a>
+              </small>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <ng-template #loaddingBar>
+      <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>fetching feed</i></ngb-progressbar>
+    </ng-template>
   </div>
 </div>
