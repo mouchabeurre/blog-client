@@ -34,3 +34,28 @@
 .downvoted {
   background-color: rgba(230, 69, 69, 0.37);
 }
+
+.post-img {
+  max-height: 40rem;
+}
+
+.parent-sauce:hover .sauce {
+  opacity: 1;
+}
+
+.parent-sauce {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.sauce {
+  opacity: 0;
+  float: left;
+  position: absolute;
+  bottom: 0px;
+  background-color: rgba(237, 238, 239, 0.9);
+  padding: 0.5rem 2rem;
+  text-align: center;
+  transition: opacity 250ms cubic-bezier(0, 1.04, 0.63, 1.01);
+}

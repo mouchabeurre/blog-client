@@ -1,10 +1,21 @@
 <div class="page-padding">
   <div class="container">
-    <div class="blog-post" *ngIf="post">
+    <div class="blog-post" *ngIf="post; else loaddingBar">
       <h2 class="blog-post-title">{{ post.title }}</h2>
       <p class="blog-post-meta">{{ post.date | date }} at {{ post.date | date: 'HH:mm' }} by
-        <a [routerLink]="['/user', post.authorId.username]">{{ post.authorId.username }}</a></p>
-      <p class="content">{{ post.content }}</p>
+        <a [routerLink]="['/user', post.authorId.username]">{{ post.authorId.username }}</a>
+      </p>
+      <article class="row">
+        <div class="col-12 col-md-auto parent-sauce">
+          <img class="rounded img-fluid post-img" src="{{ post.imageURL }}">
+          <div class="rounded sauce">
+            <a href="{{ post.imageURL }}" target="_blank">source image</a>
+          </div>
+        </div>
+        <div class="col">
+          <p class="content">{{ post.content }}</p>
+        </div>
+      </article>
       <div class="rating-section">
         <button class="btn btn-secondary btn-sm vote" (click)="upvotePost()" [ngClass]="{
           'active upvoted': post.vote !== null && post.vote == 1
@@ -16,5 +27,8 @@
       </div>
       <app-commentsection [comments]="post.comments" [shortPostId]="post.shortPostId"></app-commentsection>
     </div>
+    <ng-template #loaddingBar>
+      <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>fetching profile infos</i></ngb-progressbar>
+    </ng-template>
   </div>
 </div>

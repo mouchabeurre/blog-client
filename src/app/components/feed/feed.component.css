@@ -1,22 +1,60 @@
 .album {
-	min-height: 50rem;
-	padding-top: 3rem;
-	padding-bottom: 3rem;
-	background-color: #f7f7f7;
+  min-height: 50rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #f7f7f7;
 }
 
 h2 {
   margin-bottom: 20px;
-	width: 12rem;
+  width: 12rem;
   padding-bottom: 9px;
   border-bottom: 1px solid #eee;
 }
 
-.card {
-  margin-bottom: 2rem;
+.newpost {
+  display: flex;
+  float: right;
 }
 
-.newpost {
-	display: flex;
-	float: right;
+@media screen and (min-width: 576px) {
+  .card-columns {
+    column-count: 1;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .card-columns {
+    column-count: 3;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
+
+.card-text {
+  margin-bottom: 0.75rem;
+}
+
+.post-info {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.post-info span {
+  padding: 0rem 1rem;
+}
+
+.post-info span i {
+  font-size: 18px;
 }
