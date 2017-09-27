@@ -47,12 +47,8 @@ h2 {
 
 .post-info {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-bottom: 0.75rem;
-}
-
-.post-info span {
-  padding: 0rem 1rem;
 }
 
 .post-info span i {

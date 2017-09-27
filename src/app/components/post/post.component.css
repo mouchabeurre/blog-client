@@ -2,8 +2,14 @@
   padding-top: 3rem;
 }
 
-.content {
+.content p {
   color: #555;
+  text-align: justify;
+  text-justify: auto;
+}
+
+.content {
+  min-width: 22rem;
 }
 
 .blog-post {

@@ -1,9 +1,9 @@
-<button class="btn btn-secondary btn-sm comment-items" (click)="toggleCommentCreation()" [ngClass]="{
+<button class="btn btn-secondary btn-sm comment-items" (click)="toggleRootCommentCreation()" [ngClass]="{
   'text-area-active active': canCreateComment,
   'text-area-inactive': !canCreateComment
 }">message creation</button>
 <div *ngIf="canCreateComment">
-  <form class="" [formGroup]="upForm" (submit)="onCommentSubmit()">
+  <form class="" [formGroup]="upForm" (submit)="onRootCommentSubmit()">
     <div class="form-group" [ngClass]="{
       'has-danger': upForm.controls.newcomment.invalid && (upForm.controls.newcomment.dirty || upForm.controls.newcomment.touched) && (upForm.controls.newcomment.value !== null && upForm.controls.newcomment.value.length > 0),
       'has-success': upForm.controls.newcomment.valid && (upForm.controls.newcomment.dirty || upForm.controls.newcomment.touched) && (upForm.controls.newcomment.value !== null && upForm.controls.newcomment.value.length > 0)
@@ -23,28 +23,8 @@
   </form>
 </div>
 
-<div *ngIf="comments && comments.length > 0">
-  <div class="comment container-fluid" *ngFor="let comment of comments">
-    <div class="comment-reply">
-      <span>reply</span>
-    </div>
-    <div class="comment-meta">
-      <span><a [routerLink]="['/user', comment.authorId.username]">{{ comment.authorId.username }}</a>
-         at {{ comment.date | date: 'HH:mm' }}, {{ comment.date | date }}
-        <i *ngIf="comment.modified">modified</i>
-      </span>
-    </div>
-    <div class="comment-vote">
-      <button class="btn btn-secondary btn-sm" (click)="upvoteComment(comment)" [ngClass]="{
-        'active upvoted': comment.vote !== null && comment.vote == 1
-      }">+</button>
-      <span>{{ comment.karma }}</span>
-      <button class="btn btn-secondary btn-sm" (click)="downvoteComment(comment)" [ngClass]="{
-        'active downvoted': comment.vote !== null && comment.vote == -1
-      }">-</button>
-    </div>
-    <div class="comment-content">
-      <span>{{ comment.content }}</span>
-    </div>
+<div *ngIf="rootComments && rootComments.length > 0">
+  <div *ngFor="let comment of rootComments">
+    <app-comment [shortCommentId]="comment.shortCommentId" [nestLevel]="0"></app-comment>
   </div>
 </div>

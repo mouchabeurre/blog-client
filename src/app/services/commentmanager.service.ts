@@ -8,6 +8,8 @@ import { baseUrl } from '../base-url';
 
 @Injectable()
 export class CommentmanagerService {
+  shortPostId: string;
+  alreadyVotedComments: { id: string, vote: number }[];
 
   constructor(
     private http: Http,
@@ -28,11 +30,46 @@ export class CommentmanagerService {
       });
   }
 
+  addReply(content: Object, postId: string, parentId: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', this.AuthService.authToken);
+    return this.http.post(`${baseUrl}post/${postId}/comment/${parentId}`, content, { headers: headers })
+      .map(res => res.json())
+      .do(res => this.growlmanagerService.generateGrowl(res))
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
   getCommentsVote(id: string) {
     const headers = new Headers;
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', this.AuthService.authToken);
     return this.http.get(`${baseUrl}post/${id}/cvotes`, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
+  getComment(id: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`${baseUrl}comment/${id}`, { headers: headers })
+      .map(res => res.json())
+      .catch((err) => {
+        this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });
+        return err;
+      });
+  }
+
+  getRootComments(id: string) {
+    const headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.get(`${baseUrl}post/${id}/rootreplies`, { headers: headers })
       .map(res => res.json())
       .catch((err) => {
         this.growlmanagerService.generateGrowl({ success: false, msg: err, feedback: 3 });

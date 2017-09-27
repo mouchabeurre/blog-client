@@ -1,0 +1,86 @@
+<div *ngIf="comment" [ngClass]="{
+'nestlvl-root': nestLevel == 0,
+'nestlvl-1': nestLevel >= 1
+}">
+  <div class="comment container-fluid" [ngClass]="{
+    'own-comment': authService.loggedIn() && authService.user.shortUserId == comment.authorId.shortUserId
+  }">
+    <div class="comment-reply" (click)="toggleReplyCreation()">
+      <span [ngClass]="{
+    'open-reply': !canCreateReply,
+    'close-reply': canCreateReply
+    }"></span>
+    </div>
+    <div class="comment-meta">
+      <span>
+      <a [routerLink]="['/user', comment.authorId.username]">{{ comment.authorId.username }}</a>
+     at {{ comment.date | date: 'HH:mm' }}, {{ comment.date | date }}
+    <i *ngIf="comment.modified">modified</i>
+  </span>
+    </div>
+    <div class="comment-vote">
+      <button class="btn btn-secondary btn-sm" (click)="upvoteComment()" [ngClass]="{
+    'active upvoted': comment.vote !== null && comment.vote == 1
+  }">+</button>
+      <span>{{ comment.karma }}</span>
+      <button class="btn btn-secondary btn-sm" (click)="downvoteComment()" [ngClass]="{
+    'active downvoted': comment.vote !== null && comment.vote == -1
+  }">-</button>
+    </div>
+    <div class="comment-content">
+      <span>{{ comment.content }}</span>
+    </div>
+    <div class="parent-more" *ngIf="comment.replies && comment.replies.length > 0">
+      <span class="more" (click)="expandcollapse()" [ngClass]="{
+        'coll': expand
+      }">
+        <span *ngIf="!expand">
+          {{ comment.replies.length }}
+          <span *ngIf="comment.replies.length > 1; else singleReply">
+            replies
+          </span>
+          <ng-template #singleReply>
+            <span>reply</span>
+          </ng-template>
+        </span>
+      </span>
+      <div [ngClass]="{
+        'more-indicator': !expand,
+        'more-indicator-hide': expand
+      }">
+        <div class="more-left"></div>
+        <div class="more-right"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reply-form nestlvl-1" *ngIf="canCreateReply">
+    <form [formGroup]="upForm" (submit)="onReplySubmit()">
+      <div class="form-group reply-form" [ngClass]="{
+        'has-danger': upForm.controls.newcomment.invalid && (upForm.controls.newcomment.dirty || upForm.controls.newcomment.touched) && (upForm.controls.newcomment.value !== null && upForm.controls.newcomment.value.length > 0),
+        'has-success': upForm.controls.newcomment.valid && (upForm.controls.newcomment.dirty || upForm.controls.newcomment.touched) && (upForm.controls.newcomment.value !== null && upForm.controls.newcomment.value.length > 0)
+      }">
+        <label class="sr-only" for="inputUsername">Your comment</label>
+        <textarea type="text" id="inputUsername" placeholder="Your comment" formControlName="newcomment" class="form-control" [ngClass]="{
+          'input-merge-bot': upForm.controls.newcomment.errors && (upForm.controls.newcomment.dirty || upForm.controls.newcomment.touched) && (upForm.controls.newcomment.value !== null && upForm.controls.newcomment.value.length > 0)
+        }"></textarea>
+
+        <ngb-alert type="custom" [dismissible]="false" *ngIf="upForm.controls.newcomment.errors && (upForm.controls.newcomment.dirty || upForm.controls.newcomment.touched) && (upForm.controls.newcomment.value !== null && upForm.controls.newcomment.value.length > 0)">
+          <div *ngIf="upForm.controls.newcomment.errors.required">Comment is required</div>
+          <div *ngIf="upForm.controls.newcomment.errors.maxlength">Comment must be at most {{ upForm.controls.newcomment.errors.maxlength.requiredLength }} characters long</div>
+        </ngb-alert>
+
+      </div>
+      <input type="submit" [disabled]="!upForm.valid" class="btn btn-primary comment-items" value="Submit">
+      <span class="text-muted">
+        {{ upForm.controls.newcomment.value | countdown: maxMsgLength }} characters remaining
+      </span>
+    </form>
+  </div>
+
+  <div *ngIf="comment.replies && comment.replies.length > 0 && expand">
+    <div *ngFor="let child of comment.replies">
+      <app-comment [shortCommentId]="child.shortCommentId" [nestLevel]="nestLevel + 1"></app-comment>
+    </div>
+  </div>
+</div>

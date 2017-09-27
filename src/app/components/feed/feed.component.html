@@ -13,7 +13,7 @@
           <div class="card-text">{{ post.content | truncate: 9 }}</div>
           <div class="post-info">
             <span><i class="material-icons">thumb_up</i> {{ post.karma }}</span>
-            <span><i class="material-icons">comment</i> {{ post.comments.length }}</span>
+            <span><i class="material-icons">comment</i> {{ post.comments }}</span>
             <span><i class="material-icons">remove_red_eye</i> {{ post.views }}</span>
           </div>
           <button class="btn btn-primary btn-block" (click)="onSelectPost(post)">View</button>

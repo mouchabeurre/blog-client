@@ -12,8 +12,8 @@
             <a href="{{ post.imageURL }}" target="_blank">source image</a>
           </div>
         </div>
-        <div class="col">
-          <p class="content">{{ post.content }}</p>
+        <div class="col content">
+          <p>{{ post.content }}</p>
         </div>
       </article>
       <div class="rating-section">
@@ -25,10 +25,10 @@
         }">-</button>
         <i>karma {{ post.karma }}, views {{ post.views }}</i>
       </div>
-      <app-commentsection [comments]="post.comments" [shortPostId]="post.shortPostId"></app-commentsection>
+      <app-commentsection [shortPostId]="post.shortPostId"></app-commentsection>
     </div>
     <ng-template #loaddingBar>
-      <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>fetching profile infos</i></ngb-progressbar>
+      <ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i>fetching post content</i></ngb-progressbar>
     </ng-template>
   </div>
 </div>

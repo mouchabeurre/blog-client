@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentmanagerService } from '../../services/commentmanager.service';
 import { AuthService } from '../../services/auth.service';
 import { GrowlmanagerService } from '../../services/growlmanager.service';
-import { ValidateService } from '../../services/validate.service';
 import { COMMENT } from '../../models/comment';
 
 @Component({
@@ -12,21 +11,18 @@ import { COMMENT } from '../../models/comment';
   styleUrls: ['./commentsection.component.css'],
 })
 export class CommentsectionComponent implements OnInit {
-  @Input() comments;
   @Input() shortPostId: string;
+  rootComments: COMMENT[];
   upForm: FormGroup;
   canCreateComment: boolean;
-  buttonToggleMessage: string;
-  votedComments: { id: string, vote: number }[]
 
   constructor(
     private commentmanager: CommentmanagerService,
     private fb: FormBuilder,
-    private validateService: ValidateService,
     private authService: AuthService,
     private growlmanagerService: GrowlmanagerService
   ) {
-    this.comments = new Array<COMMENT>();
+    this.commentmanager.shortPostId = this.shortPostId;
     this.canCreateComment = false;
   }
 
@@ -34,19 +30,21 @@ export class CommentsectionComponent implements OnInit {
     this.upForm = this.fb.group({
       newcomment: [null, [Validators.required, Validators.maxLength(300)]]
     });
+    this.commentmanager.getRootComments(this.shortPostId).subscribe(res => {
+      if(res.success){
+        this.rootComments = res.replies;
+      }
+    });
     if (this.authService.loggedIn()) {
       this.commentmanager.getCommentsVote(this.shortPostId).subscribe(res => {
         if (res.success && res.cvotedArray.length > 0) {
-          this.votedComments = res.cvotedArray;
-          for (let i = 0; i < this.votedComments.length; i++) {
-            this.comments.find(comm => comm.shortCommentId === this.votedComments[i].id).vote = this.votedComments[i].vote;
-          }
+          this.commentmanager.alreadyVotedComments = res.cvotedArray;
         }
       });
     }
   }
 
-  toggleCommentCreation() {
+  toggleRootCommentCreation() {
     if (this.authService.loggedIn()) {
       this.canCreateComment = !this.canCreateComment;
     } else {
@@ -54,50 +52,14 @@ export class CommentsectionComponent implements OnInit {
     }
   }
 
-  onCommentSubmit() {
+  onRootCommentSubmit() {
     if (this.authService.loggedIn()) {
-      const content = {
+      const loadout = {
         content: this.upForm.controls.newcomment.value
       }
-      this.commentmanager.addComment(content, this.shortPostId).subscribe(res => {
-        this.comments.unshift(res.newComment);
+      this.commentmanager.addComment(loadout, this.shortPostId).subscribe(res => {
+        this.rootComments.unshift(res.newComment);
         this.upForm.reset();
-      });
-    } else {
-      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote comment', feedback: 1 });
-    }
-  }
-
-  upvoteComment(comment: COMMENT) {
-    if (this.authService.loggedIn()) {
-      this.commentmanager.upvoteComment(comment.shortCommentId).subscribe(res => {
-        if (res.success) {
-          this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).karma += res.voted;
-          if (this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).vote == undefined) {
-            this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).vote = 0;
-          }
-          this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).vote += res.voted;
-        } else {
-          this.growlmanagerService.generateGrowl({ success: false, msg: res.msg, feedback: 3 });
-        }
-      });
-    } else {
-      this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote comment', feedback: 1 });
-    }
-  }
-
-  downvoteComment(comment: COMMENT) {
-    if (this.authService.loggedIn()) {
-      this.commentmanager.downvoteComment(comment.shortCommentId).subscribe(res => {
-        if (res.success) {
-          this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).karma += res.voted;
-          if (this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).vote == undefined) {
-            this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).vote = 0;
-          }
-          this.comments.find(comm => comm.shortCommentId === comment.shortCommentId).vote += res.voted;
-        } else {
-          this.growlmanagerService.generateGrowl({ success: false, msg: res.msg, feedback: 3 });
-        }
       });
     } else {
       this.growlmanagerService.generateGrowl({ success: false, msg: 'Create an account or sign-in to vote comment', feedback: 1 });

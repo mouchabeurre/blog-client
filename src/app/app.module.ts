@@ -29,6 +29,8 @@ import { GrowlerComponent } from './components/growler/growler.component';
 import { PostcreatorComponent } from './components/postcreator/postcreator.component';
 // Pipes
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { CommentComponent } from './components/comment/comment.component';
+import { CountdownPipe } from './pipes/countdown.pipe';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     CommentsectionComponent,
     TruncatePipe,
     GrowlerComponent,
-    PostcreatorComponent
+    PostcreatorComponent,
+    CommentComponent,
+    CountdownPipe
   ],
   imports: [
     BrowserModule,
