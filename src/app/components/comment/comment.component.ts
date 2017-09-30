@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentmanagerService } from '../../services/commentmanager.service';
 import { GrowlmanagerService } from '../../services/growlmanager.service';
 import { CountdownPipe } from '../../pipes/countdown.pipe'
+import { TimeagoPipe } from '../../pipes/timeago.pipe'
 import { COMMENT } from '../../models/comment';
 
 @Component({

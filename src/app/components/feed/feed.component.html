@@ -19,7 +19,7 @@
           <button class="btn btn-primary btn-block" (click)="onSelectPost(post)">View</button>
         </div>
         <div class="card-footer">
-          <small class="text-muted">{{ post.date | date }} by
+          <small class="text-muted">{{ post.date | timeago }} by
             <a [routerLink]="['/user', post.authorId.username]">{{ post.authorId.username }}</a>
           </small>
         </div>

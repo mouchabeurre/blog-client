@@ -1,7 +1,12 @@
-<button class="btn btn-secondary btn-sm comment-items" (click)="toggleRootCommentCreation()" [ngClass]="{
+<div *ngIf="authService.loggedIn(); else mustLogIn">
+  <button class="btn btn-secondary btn-sm comment-items" (click)="toggleRootCommentCreation()" [ngClass]="{
   'text-area-active active': canCreateComment,
   'text-area-inactive': !canCreateComment
 }">message creation</button>
+</div>
+<ng-template #mustLogIn>
+  <p class="text-muted"><i>You must <a routerLink="/signin">sign in</a> to join the conversation.</i></p>
+</ng-template>
 <div *ngIf="canCreateComment">
   <form class="" [formGroup]="upForm" (submit)="onRootCommentSubmit()">
     <div class="form-group" [ngClass]="{

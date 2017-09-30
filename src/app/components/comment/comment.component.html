@@ -14,9 +14,9 @@
     <div class="comment-meta">
       <span>
       <a [routerLink]="['/user', comment.authorId.username]">{{ comment.authorId.username }}</a>
-     at {{ comment.date | date: 'HH:mm' }}, {{ comment.date | date }}
-    <i *ngIf="comment.modified">modified</i>
-  </span>
+       <span class="date-replied">{{ comment.date | timeago }}</span>
+      <i *ngIf="comment.modified">modified</i>
+      </span>
     </div>
     <div class="comment-vote">
       <button class="btn btn-secondary btn-sm" (click)="upvoteComment()" [ngClass]="{
@@ -39,10 +39,10 @@
           <span *ngIf="comment.replies.length > 1; else singleReply">
             replies
           </span>
-          <ng-template #singleReply>
-            <span>reply</span>
-          </ng-template>
-        </span>
+      <ng-template #singleReply>
+        <span>reply</span>
+      </ng-template>
+      </span>
       </span>
       <div [ngClass]="{
         'more-indicator': !expand,

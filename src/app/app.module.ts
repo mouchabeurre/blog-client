@@ -31,6 +31,7 @@ import { PostcreatorComponent } from './components/postcreator/postcreator.compo
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { CommentComponent } from './components/comment/comment.component';
 import { CountdownPipe } from './pipes/countdown.pipe';
+import { TimeagoPipe } from './pipes/timeago.pipe';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CountdownPipe } from './pipes/countdown.pipe';
     GrowlerComponent,
     PostcreatorComponent,
     CommentComponent,
-    CountdownPipe
+    CountdownPipe,
+    TimeagoPipe
   ],
   imports: [
     BrowserModule,

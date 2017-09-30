@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostmanagerService } from '../../services/postmanager.service';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { TimeagoPipe } from '../../pipes/timeago.pipe'
 import { GrowlmanagerService } from '../../services/growlmanager.service';
 
 @Component({
